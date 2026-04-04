@@ -61,6 +61,7 @@ vim.pack.add({
 	gh('nvim-tree/nvim-tree.lua'),
   gh('ibhagwan/fzf-lua'),
   gh('echasnovski/mini.nvim'),
+  gh('lewis6991/gitsigns.nvim'),
 })
 
 --simple packadd function
@@ -74,6 +75,7 @@ packadd("nvim-lspconfig")
 packadd("nvim-treesitter")
 packadd("fzf-lua")
 packadd("mini.nvim")
+packadd("gitsigns.nvim")
 
 --nvim-tree
 require("nvim-tree").setup({
@@ -105,3 +107,6 @@ require("mini.comment").setup({})
 require("mini.trailspace").setup({})
 require("mini.icons").setup({})
 require("mini.indentscope").setup({})
+
+--git signs
+require("gitsigns").setup({})
