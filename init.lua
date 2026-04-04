@@ -38,3 +38,13 @@ vim.g.mapleader = " "
 vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
 vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
 
+--cool alt movement for line selection.
+vim.keymap.set({ "v" }, "<A-k>", ":m '<-2<CR>gv=gv")
+vim.keymap.set({ "v" }, "<A-j>", ":m '>+1<CR>gv=gv")
+
+--indent and reselect, default deselects and thus requires reselect for multiple indents
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+--CTRL + SHIFT + c = copy text to system clipboard. yank still goes to register
+vim.keymap.set('v', '<C-S-c>', '"+y', { noremap = true })
