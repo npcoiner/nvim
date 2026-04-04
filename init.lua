@@ -60,6 +60,7 @@ vim.pack.add({
 	gh('neovim/nvim-lspconfig'),
 	gh('nvim-tree/nvim-tree.lua'),
   gh('ibhagwan/fzf-lua'),
+  gh('echasnovski/mini.nvim'),
 })
 
 --simple packadd function
@@ -72,6 +73,7 @@ packadd("nvim-tree.lua")
 packadd("nvim-lspconfig")
 packadd("nvim-treesitter")
 packadd("fzf-lua")
+packadd("mini.nvim")
 
 --nvim-tree
 require("nvim-tree").setup({
@@ -98,3 +100,8 @@ vim.keymap.set("n", "<leader>fg", function()
   require("fzf-lua").live_grep()
 end, {desc = "Live Grep"})
 
+--mini.nvim
+require("mini.comment").setup({})
+require("mini.trailspace").setup({})
+require("mini.icons").setup({})
+require("mini.indentscope").setup({})
