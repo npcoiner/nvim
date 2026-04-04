@@ -56,26 +56,17 @@ local cb = function(x) return 'https://codeberg.org/' .. x end
 
 -- vim.pack.add({ gh('user/plugin1'), cb('user/plugin2') })
 vim.pack.add({
-	gh('nvim-treesitter/nvim-treesitter'),
+  {
+    src = gh('nvim-treesitter/nvim-treesitter'),
+    branch = "main",
+    build = ":TSUpdate",
+  },
 	gh('neovim/nvim-lspconfig'),
 	gh('nvim-tree/nvim-tree.lua'),
   gh('ibhagwan/fzf-lua'),
   gh('echasnovski/mini.nvim'),
   gh('lewis6991/gitsigns.nvim'),
 })
-
---simple packadd function
-local function packadd(name)
-  vim.cmd("packadd " .. name)
-end
-
---packadds
-packadd("nvim-tree.lua")
-packadd("nvim-lspconfig")
-packadd("nvim-treesitter")
-packadd("fzf-lua")
-packadd("mini.nvim")
-packadd("gitsigns.nvim")
 
 --nvim-tree
 require("nvim-tree").setup({
@@ -110,3 +101,53 @@ require("mini.indentscope").setup({})
 
 --git signs
 require("gitsigns").setup({})
+
+--nvim-treesitter
+local setup_treesitter = function()
+	local treesitter = require("nvim-treesitter")
+	treesitter.setup({})
+	local ensure_installed = {
+		"go",
+    "lua",
+    "python",
+    "typescript",
+    "vue",
+		"html",
+		"css",
+		"javascript",
+    "bash",
+    "c_sharp",
+    "zig",
+    "rust",
+    "c",
+		"json",
+		"svelte",
+	}
+
+	local config = require("nvim-treesitter.config")
+
+	local already_installed = config.get_installed()
+	local parsers_to_install = {}
+
+	for _, parser in ipairs(ensure_installed) do
+		if not vim.tbl_contains(already_installed, parser) then
+			table.insert(parsers_to_install, parser)
+		end
+	end
+
+	if #parsers_to_install > 0 then
+		treesitter.install(parsers_to_install)
+	end
+
+	local group = vim.api.nvim_create_augroup("TreeSitterConfig", { clear = true })
+	vim.api.nvim_create_autocmd("FileType", {
+		group = group,
+		callback = function(args)
+			if vim.list_contains(treesitter.get_installed(), vim.treesitter.language.get_lang(args.match)) then
+				vim.treesitter.start(args.buf)
+			end
+		end,
+	})
+end
+
+setup_treesitter()
