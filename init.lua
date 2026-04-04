@@ -94,4 +94,7 @@ require("fzf-lua").setup({})
 vim.keymap.set("n", "<leader>ff", function()
   require("fzf-lua").files()
 end, {desc = "FZF files"})
+vim.keymap.set("n", "<leader>fg", function()
+  require("fzf-lua").live_grep()
+end, {desc = "Live Grep"})
 
