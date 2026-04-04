@@ -48,3 +48,11 @@ vim.keymap.set("v", ">", ">gv")
 
 --CTRL + SHIFT + c = copy text to system clipboard. yank still goes to register
 vim.keymap.set('v', '<C-S-c>', '"+y', { noremap = true })
+
+--highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("UserConfig", {clear = true}),
+  callback = function()
+    vim.hl.on_yank()
+  end,
+})
