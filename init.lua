@@ -1,11 +1,3 @@
-local gh = function(x) return 'https://github.com/' .. x end
-local cb = function(x) return 'https://codeberg.org/' .. x end
--- vim.pack.add({ gh('user/plugin1'), cb('user/plugin2') })
-vim.pack.add({
-	gh('nvim-treesitter/nvim-treesitter'),
-	gh('neovim/nvim-lspconfig'),
-})
-
 --Much of this config is referencing a video from The Rad Lectures
 -- options
 vim.opt.number = true
@@ -56,3 +48,50 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.hl.on_yank()
   end,
 })
+
+-- plugins
+--
+local gh = function(x) return 'https://github.com/' .. x end
+local cb = function(x) return 'https://codeberg.org/' .. x end
+
+-- vim.pack.add({ gh('user/plugin1'), cb('user/plugin2') })
+vim.pack.add({
+	gh('nvim-treesitter/nvim-treesitter'),
+	gh('neovim/nvim-lspconfig'),
+	gh('nvim-tree/nvim-tree.lua'),
+  gh('ibhagwan/fzf-lua'),
+})
+
+--simple packadd function
+local function packadd(name)
+  vim.cmd("packadd " .. name)
+end
+
+--packadds
+packadd("nvim-tree.lua")
+packadd("nvim-lspconfig")
+packadd("nvim-treesitter")
+packadd("fzf-lua")
+
+--nvim-tree
+require("nvim-tree").setup({
+  view = {
+    width = 35,
+  },
+  filters = {
+    dotfiles = false, --show dotfiles
+  },
+  renderer = {
+    group_empty = true,
+  },
+})
+vim.keymap.set("n", "<leader>ex", function()
+  require("nvim-tree.api").tree.toggle()
+end, {desc = "Toggle NvimTree"})
+
+--fzf-lua
+require("fzf-lua").setup({})
+vim.keymap.set("n", "<leader>ff", function()
+  require("fzf-lua").files()
+end, {desc = "FZF files"})
+
