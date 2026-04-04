@@ -6,6 +6,7 @@ vim.pack.add({
 	gh('neovim/nvim-lspconfig'),
 })
 
+--Much of this config is referencing a video from The Rad Lectures
 -- options
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -29,3 +30,11 @@ vim.opt.hidden = true -- allow hidden buffers
 vim.opt.errorbells = false -- no term bell on error
 
 vim.opt.encoding = "utf-8" -- default encoding
+
+-- keymap
+vim.g.mapleader = " "
+
+--better movement in wrapped text (https://old.reddit.com/r/neovim/comments/122scnj/changed_my_mapping_of_jk_into_gj_and_gk_to/)
+vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
+
