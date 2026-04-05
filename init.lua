@@ -24,7 +24,6 @@ vim.opt.errorbells = false -- no term bell on error
 vim.opt.encoding = "utf-8" -- default encoding
 
 vim.opt.termguicolors = true
-
 -- keymap
 vim.g.mapleader = " "
 
@@ -112,7 +111,10 @@ require("mini.trailspace").setup({})
 require("mini.icons").setup({})
 require("mini.indentscope").setup({})
 require("mini.completion").setup({})
-
+vim.keymap.set('i', '<Tab>', function()
+  return vim.fn.pumvisible() == 1 and '<C-y>' or '<Tab>'
+end, { expr = true, replace_keycodes = true })
+vim.opt.completeopt = "menu,menuone,noinsert" --don't write any completions until either Enter or Tab
 --git signs
 require("gitsigns").setup({})
 
