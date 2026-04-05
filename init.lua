@@ -51,6 +51,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- Normal mode window navigation
+vim.keymap.set('n', '<C-h>', '<C-w>h', { desc = 'focus left window' })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'focus lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'focus upper window' })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'focus right window' })
+
 -- plugins
 --
 local gh = function(x) return 'https://github.com/' .. x end
