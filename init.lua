@@ -78,6 +78,8 @@ vim.pack.add({
   gh('stevearc/conform.nvim'),
   gh('mfussenegger/nvim-lint'),
   gh('WhoIsSethDaniel/mason-tool-installer.nvim'),
+  gh('nvim-lua/plenary.nvim'),
+  gh('milanglacier/minuet-ai.nvim'),
 })
 
 --nvim-tree
@@ -166,6 +168,33 @@ local setup_treesitter = function()
   })
 end
 setup_treesitter()
+
+--minuet ai
+require("minuet").setup({
+  provider = 'openai_fim_compatible',
+  n_completions = 1,
+  context_window = 512,
+  provider_options = {
+    openai_fim_compatible = {
+      api_key = 'TERM',
+      name = 'Ollama',
+      end_point = 'http://localhost:11434/v1/completions',
+      model = 'qwen2.5-coder:7b', -- must actually run `ollama run qwen2.5-coder:7b`
+      optional = {
+        max_tokens = 56,
+        top_p = 0.9,
+      },
+    },
+  },
+
+
+  virtualtext = {
+    auto_trigger_ft = { '*' },
+    keymap = {
+      accept_line = '<CR>',
+    },
+  },
+})
 
 --mason + mason-lspconfig
 require("mason").setup({})
