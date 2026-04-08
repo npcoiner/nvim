@@ -42,6 +42,8 @@ vim.keymap.set("v", ">", ">gv")
 --CTRL + SHIFT + c = copy text to system clipboard. yank still goes to register
 vim.keymap.set('v', '<C-S-c>', '"+y', { noremap = true })
 
+--<leader> cwd to copy cwd to clipboard
+vim.keymap.set('n', '<leader>cwd', ":let @+ = expand('%:p:h')<CR>", { desc = "Copy directory to clipboard" })
 --highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("UserConfig", { clear = true }),
@@ -171,31 +173,32 @@ setup_treesitter()
 
 --minuet ai
 require("minuet").setup({
-  provider = 'openai_fim_compatible',
+  provider = 'openai_compatible',
   n_completions = 1,
-  context_window = 512,
+  context_window = 2048,
   provider_options = {
-    openai_fim_compatible = {
+    openai_compatible = {
       api_key = 'TERM',
       name = 'Ollama',
-      end_point = 'http://localhost:11434/v1/completions',
-      model = 'qwen2.5-coder:7b', -- must actually run `ollama run qwen2.5-coder:7b`
+      end_point = 'http://localhost:11434/v1/chat/completions',
+      model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
       optional = {
         max_tokens = 56,
         top_p = 0.9,
       },
+      stream = true,
     },
   },
-
-
+  -- lsp = {
+  --   enabled_ft = { '*' },
+  -- },
   virtualtext = {
     auto_trigger_ft = { '*' },
-    keymap = {
+    keymap = { --accept_line should be with Enter
       accept_line = '<CR>',
     },
   },
 })
-
 --mason + mason-lspconfig
 require("mason").setup({})
 require("mason-lspconfig").setup({})
