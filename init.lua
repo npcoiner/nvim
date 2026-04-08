@@ -173,19 +173,20 @@ setup_treesitter()
 
 --minuet ai
 require("minuet").setup({
-  provider = 'openai_fim_compatible',
+  provider = 'openai_compatible',
   n_completions = 1,
   context_window = 2048,
   provider_options = {
-    openai_fim_compatible = {
+    openai_compatible = {
       api_key = 'TERM',
       name = 'Ollama',
-      end_point = 'http://localhost:11434/v1/completions',
-      model = 'qwen2.5-coder:7b', -- must actually run `ollama run gemma4:e4b`
+      end_point = 'http://localhost:11434/v1/chat/completions',
+      model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
       optional = {
         max_tokens = 56,
         top_p = 0.9,
       },
+      stream = true,
     },
   },
   -- lsp = {
