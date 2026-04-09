@@ -251,6 +251,16 @@ require('lint').linters_by_ft = {
 
 --Roslyn.nvim for C# projects. Need to make a .nvim.lua file with the vim.g.roslyn_target
 --set to the absolute path of the solution we want to use.
+-- UNITY + NEOVIM QUICK SETUP REMINDERS
+-- 1. FIX NEOVIM SERVER CONNECTION (Exit Code 2 / PATH issues):
+--    Inside the Unity Editor's Neovim plugin settings:
+--    * Environments Box: $PATH
+--    * Arguments Box: Use the default generated string
+--    * Jump Template: Change to "Drop to file and jump to position"
+-- 2. SILENCE UNITY C# WARNINGS (e.g., "Unused LateUpdate"):
+--    * Download 'Microsoft.Unity.Analyzers.dll
+--    * In Unity Editor: Neovim -> Settings -> Browse to add custom analyzer .dll
+--    * CRITICAL: Complete refresh/reload the Unity project (clicking "Regenerate" is a trap)
 vim.lsp.config("roslyn", {
   on_attach = function()
     print("Roslyn server successfully attached!")
