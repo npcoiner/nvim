@@ -1,5 +1,9 @@
 --Much of this config is referencing a video from The Rad Lectures
 -- options
+
+--allows us to use nvimrc/nvim.lua/.exrc files in current directory
+vim.opt.exrc = true
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
@@ -26,7 +30,6 @@ vim.opt.encoding = "utf-8" -- default encoding
 vim.opt.termguicolors = true
 -- keymap
 vim.g.mapleader = " "
-
 --better movement in wrapped text (https://old.reddit.com/r/neovim/comments/122scnj/changed_my_mapping_of_jk_into_gj_and_gk_to/)
 vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
 vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
@@ -82,6 +85,7 @@ vim.pack.add({
   gh('WhoIsSethDaniel/mason-tool-installer.nvim'),
   gh('nvim-lua/plenary.nvim'),
   gh('milanglacier/minuet-ai.nvim'),
+  gh('seblyng/roslyn.nvim'),
 })
 
 --nvim-tree
@@ -183,10 +187,9 @@ require("minuet").setup({
       end_point = 'http://localhost:11434/v1/chat/completions',
       model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
       optional = {
-        max_tokens = 56,
+        max_tokens = 124,
         top_p = 0.9,
       },
-      stream = true,
     },
   },
   -- lsp = {
@@ -200,9 +203,13 @@ require("minuet").setup({
   },
 })
 --mason + mason-lspconfig
-require("mason").setup({})
+require("mason").setup({
+  registries = {
+    "github:mason-org/mason-registry",
+    "github:Crashdummyy/mason-registry",
+  },
+})
 require("mason-lspconfig").setup({})
-
 -- lsp
 vim.keymap.set("n", "<leader>q", function()
   vim.diagnostic.setloclist({ open = true })
@@ -241,3 +248,37 @@ require('conform').setup({
 require('lint').linters_by_ft = {
   javascript = { 'eslint_d' }
 }
+
+--Roslyn.nvim for C# projects. Need to make a .nvim.lua file with the vim.g.roslyn_target
+--set to the absolute path of the solution we want to use.
+vim.lsp.config("roslyn", {
+  on_attach = function()
+    print("Roslyn server successfully attached!")
+  end,
+  settings = {
+    ["csharp|inlay_hints"] = {
+      csharp_enable_inlay_hints_for_implicit_object_creation = true,
+      csharp_enable_inlay_hints_for_implicit_variable_types = true,
+    },
+    ["csharp|code_lens"] = {
+      dotnet_enable_references_code_lens = true,
+    },
+  },
+})
+
+require("roslyn").setup({
+  lock_target = true,
+  silent = true,
+  choose_target = function(targets)
+    if vim.g.roslyn_target then
+      return vim.iter(targets):find(function(item)
+        return string.find(item, vim.g.roslyn_target, 1, true)
+      end)
+    end
+    print("Couldn't find target :(")
+    return nil
+  end,
+})
+
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition) -- Go to definition
+vim.keymap.set('n', 'K', vim.lsp.buf.hover)       -- Hover
