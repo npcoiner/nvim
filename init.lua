@@ -86,6 +86,8 @@ vim.pack.add({
   gh('nvim-lua/plenary.nvim'),
   gh('milanglacier/minuet-ai.nvim'),
   gh('seblyng/roslyn.nvim'),
+  gh('kawre/leetcode.nvim'),
+  gh('MunifTanjim/nui.nvim'),
 })
 
 --nvim-tree
@@ -187,7 +189,7 @@ require("minuet").setup({
       end_point = 'http://localhost:11434/v1/chat/completions',
       model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
       optional = {
-        max_tokens = 124,
+        max_tokens = 1024,
         top_p = 0.9,
       },
     },
@@ -292,3 +294,5 @@ require("roslyn").setup({
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition) -- Go to definition
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)       -- Hover
+
+require("leetcode").setup({})
