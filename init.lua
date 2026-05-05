@@ -47,6 +47,7 @@ vim.keymap.set('v', '<C-S-c>', '"+y', { noremap = true })
 
 --<leader> cwd to copy cwd to clipboard
 vim.keymap.set('n', '<leader>cwd', ":let @+ = expand('%:p:h')<CR>", { desc = "Copy directory to clipboard" })
+
 --highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("UserConfig", { clear = true }),
@@ -61,6 +62,11 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'focus lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'focus upper window' })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'focus right window' })
 
+-- terminal lets us "<g><f>" to files but git usually has non-relative addresses. Use this
+-- git config --global diff.noprefix true
+-- git config --global diff.relative true
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'exit terminal mode' })
+
 -- plugins
 --
 local gh = function(x) return 'https://github.com/' .. x end
@@ -72,22 +78,23 @@ vim.pack.add({
     src = gh('nvim-treesitter/nvim-treesitter'),
     branch = "main",
     build = ":TSUpdate",
-  },
-  gh('neovim/nvim-lspconfig'),
-  gh('nvim-tree/nvim-tree.lua'),
-  gh('ibhagwan/fzf-lua'),
-  gh('echasnovski/mini.nvim'),
-  gh('lewis6991/gitsigns.nvim'),
-  gh('mason-org/mason.nvim'),
-  gh('mason-org/mason-lspconfig.nvim'),
-  gh('stevearc/conform.nvim'),
-  gh('mfussenegger/nvim-lint'),
-  gh('WhoIsSethDaniel/mason-tool-installer.nvim'),
-  gh('nvim-lua/plenary.nvim'),
-  gh('milanglacier/minuet-ai.nvim'),
-  gh('seblyng/roslyn.nvim'),
-  gh('kawre/leetcode.nvim'),
-  gh('MunifTanjim/nui.nvim'),
+  },                                               -- syntax highlighting and code parsing
+  gh('neovim/nvim-lspconfig'),                     -- base lsp configurations
+  gh('nvim-tree/nvim-tree.lua'),                   -- file explorer
+  gh('ibhagwan/fzf-lua'),                          -- fuzzy finder (files, grep, etc.)
+  gh('echasnovski/mini.nvim'),                     -- collection of small quality-of-life plugins
+  gh('lewis6991/gitsigns.nvim'),                   -- git decorations in the gutter
+  gh('mason-org/mason.nvim'),                      -- package manager for lsps, linters, and formatters
+  gh('mason-org/mason-lspconfig.nvim'),            -- bridge between mason and lspconfig
+  gh('stevearc/conform.nvim'),                     -- formatting
+  gh('mfussenegger/nvim-lint'),                    -- asynchronous linting
+  gh('WhoIsSethDaniel/mason-tool-installer.nvim'), -- auto-install mason tools
+  gh('nvim-lua/plenary.nvim'),                     -- coroutines, dependency.
+  gh('milanglacier/minuet-ai.nvim'),               -- ai advanded completion
+  gh('seblyng/roslyn.nvim'),                       -- c# LSP (also a filewatcher hog)
+  gh('khoido2003/roslyn-filewatch.nvim'),          -- roslyn watcher fix
+  gh('kawre/leetcode.nvim'),                       -- leetcode
+  gh('MunifTanjim/nui.nvim'),                      -- for leetcode
 })
 
 --nvim-tree
@@ -123,6 +130,10 @@ require("mini.indentscope").setup({})
 require("mini.completion").setup({})
 vim.keymap.set('i', '<Tab>', function()
   return vim.fn.pumvisible() == 1 and '<C-y>' or '<Tab>'
+end, { expr = true, replace_keycodes = true })
+--Force Shift CR to just make a new line.
+vim.keymap.set('i', '<S-CR>', function()
+  return vim.fn.pumvisible() == 1 and '<C-e><CR>' or '<S-CR>'
 end, { expr = true, replace_keycodes = true })
 vim.opt.completeopt = "menu,menuone,noinsert" --don't write any completions until either Enter or Tab
 --git signs
