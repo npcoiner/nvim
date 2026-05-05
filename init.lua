@@ -290,6 +290,7 @@ vim.lsp.config("roslyn", {
 })
 
 require("roslyn").setup({
+  filewatching = "off",
   lock_target = true,
   silent = true,
   choose_target = function(targets)
@@ -301,6 +302,9 @@ require("roslyn").setup({
     print("Couldn't find target :(")
     return nil
   end,
+})
+
+require("roslyn_filewatch").setup({
 })
 
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition) -- Go to definition
