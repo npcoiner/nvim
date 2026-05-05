@@ -310,4 +310,6 @@ require("roslyn_filewatch").setup({
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition) -- Go to definition
 vim.keymap.set('n', 'K', vim.lsp.buf.hover)       -- Hover
 
-require("leetcode").setup({})
+require("leetcode").setup({
+  lang = "python3",
+})
