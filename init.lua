@@ -189,32 +189,32 @@ end
 setup_treesitter()
 
 --minuet ai
-require("minuet").setup({
-  provider = 'openai_compatible',
-  n_completions = 1,
-  context_window = 2048,
-  provider_options = {
-    openai_compatible = {
-      api_key = 'TERM',
-      name = 'Ollama',
-      end_point = 'http://localhost:11434/v1/chat/completions',
-      model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
-      optional = {
-        max_tokens = 1024,
-        top_p = 0.9,
-      },
-    },
-  },
-  -- lsp = {
-  --   enabled_ft = { '*' },
-  -- },
-  virtualtext = {
-    auto_trigger_ft = { '*' },
-    keymap = { --accept_line should be with Enter
-      accept_line = '<CR>',
-    },
-  },
-})
+-- require("minuet").setup({
+--   provider = 'openai_compatible',
+--   n_completions = 1,
+--   context_window = 2048,
+--   provider_options = {
+--     openai_compatible = {
+--       api_key = 'TERM',
+--       name = 'Ollama',
+--       end_point = 'http://localhost:11434/v1/chat/completions',
+--       model = 'gemma4:e4b', -- must actually run `ollama run gemma4:e4b`
+--       optional = {
+--         max_tokens = 1024,
+--         top_p = 0.9,
+--       },
+--     },
+--   },
+--   -- lsp = {
+--   --   enabled_ft = { '*' },
+--   -- },
+--   virtualtext = {
+--     auto_trigger_ft = { '*' },
+--     keymap = { --accept_line should be with Enter
+--       accept_line = '<CR>',
+--     },
+--   },
+-- })
 --mason + mason-lspconfig
 require("mason").setup({
   registries = {
